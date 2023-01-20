@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>LoginEnchere</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Navbar-Centered-Brand-icons.css">
+</head>
+
+<body>
+    <section class="position-relative py-4 py-xl-5">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-6 col-xl-4">
+                    <div class="card mb-5">
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <!-- <form class="text-center" method="post"> -->
+                                <div class="mb-3"><label class="form-label" style="text-align: left;">Nom</label><input class="form-control" type="text" value="mic" id="nom" name="nom" placeholder="nom"></div>
+                                <div class="mb-3"><label class="form-label" style="text-align: left;">Password</label><input class="form-control" type="password" value="root" id="mdp" name="mdp" placeholder="Password"></div>
+                                <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit" onclick="submitForm()">Login</button></div>
+                            <!-- </form> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        function submitForm()
+        { 
+            var nom = document.getElementById("nom");
+            var mdp = document.getElementById("mdp");
+
+            //création de l'objet XMLHttpRequest
+            var xhr; 
+            try {  xhr = new ActiveXObject('Msxml2.XMLHTTP');   }
+            catch (e) 
+            {
+                try {   xhr = new ActiveXObject('Microsoft.XMLHTTP'); }
+                catch (e2) 
+                {
+                try {  xhr = new XMLHttpRequest();  }
+                catch (e3) {  xhr = false;   }
+                }
+            }
+        
+            //Définition des changements d'états    
+            xhr.onreadystatechange  = function() 
+            { 
+            if(xhr.readyState  == 4){
+                if(xhr.status  == 200) {
+                    var retour = JSON.parse(xhr.responseText);
+                    console.log(retour);
+                    window.location.href = "Accueil.html";
+                } else {
+                    document.dyn="Error code " + xhr.status;
+                }
+                }
+            }; 
+        //XMLHttpRequest.open(method, url, async)
+        xhr.open("GET", "https://wss5enchere-production.up.railway.app/login?nom="+nom.value+"&mdp="+mdp.value,  true); 
+        
+        //XMLHttpRequest.send(body)
+        xhr.send(null); 
+        }
+    </script>
+</body>
+
+</html>
